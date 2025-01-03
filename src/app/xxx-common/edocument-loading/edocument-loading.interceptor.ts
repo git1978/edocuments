@@ -1,4 +1,4 @@
-import {XxxLoadingService} from "./xxx-loading.service";
+import {EdocumentLoadingService} from "./edocument-loading.service";
 import {HttpContextToken, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {finalize, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
@@ -9,7 +9,7 @@ export const SkipLoading =
 @Injectable()
 export class XxxLoadingInterceptor
   implements HttpInterceptor {
-  constructor(private loadingService: XxxLoadingService) {
+  constructor(private loadingService: EdocumentLoadingService) {
   }
 
   intercept(

@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {XxxHeaderComponent} from './xxx-header/xxx-header.component';
-import {XxxLoadingComponent} from './xxx-common/xxx-loading/xxx-loading.component';
+import {EdocumentLoadingComponent} from './xxx-common/edocument-loading/edocument-loading.component';
 import { XxxMenuComponent } from './xxx-menu/xxx-menu.component';
 import { XxxFooterComponent } from './xxx-footer/xxx-footer.component';
 
@@ -12,7 +12,7 @@ import { XxxFooterComponent } from './xxx-footer/xxx-footer.component';
         XxxHeaderComponent,
         XxxMenuComponent,
         XxxFooterComponent,
-        XxxLoadingComponent
+        EdocumentLoadingComponent
     ],
     selector: 'app-root',
     standalone: true,

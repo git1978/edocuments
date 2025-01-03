@@ -3,25 +3,8 @@ import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {AsyncPipe, NgTemplateOutlet} from '@angular/common';
 import {Observable, tap} from "rxjs";
 import {RouteConfigLoadEnd, RouteConfigLoadStart, Router} from "@angular/router";
-import {XxxLoadingService} from "./xxx-loading.service";
+import {EdocumentLoadingService} from "./edocument-loading.service";
 
-/*
-To turn off loading for certain http requests, set the context as in this example
-this.http.get("/api/courses", {
-  context: new HttpContext().set(SkipLoading, true),
-});
-
-To show loading during router route transitions
-add the attribute to the loading element as in this example
-<xxx-loading [detectRouteTransitions]="true"></xxx-loading>
-
- To use the http interceptor add this to the app module providers
-     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: XxxLoadingInterceptor,
-      multi: true,
-    },
- */
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
@@ -29,18 +12,18 @@ add the attribute to the loading element as in this example
         MatProgressSpinner,
         NgTemplateOutlet,
     ],
-    selector: 'xxx-loading',
+    selector: 'edocument-loading',
     standalone: true,
-    styleUrl: './xxx-loading.component.scss',
-    templateUrl: './xxx-loading.component.html',
+    styleUrl: './edocument-loading.component.scss',
+    templateUrl: './edocument-loading.component.html',
 })
-export class XxxLoadingComponent implements OnInit {
+export class EdocumentLoadingComponent implements OnInit {
     @ContentChild("loading") customLoadingIndicator: TemplateRef<any> | null = null;
     @Input() detectRouteTransitions = false;
     loading$: Observable<boolean>;
 
     constructor(
-        private loadingService: XxxLoadingService,
+        private loadingService: EdocumentLoadingService,
         private router: Router) {
         this.loading$ = this.loadingService.loading$;
     }

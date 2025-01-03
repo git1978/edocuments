@@ -5,7 +5,7 @@ import {Injectable} from '@angular/core';
 import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {XxxAlertService} from "../xxx-common/xxx-alert/xxx-alert.service";
-import {XxxLoadingService} from "../xxx-common/xxx-loading/xxx-loading.service";
+import {EdocumentLoadingService} from "../xxx-common/edocument-loading/edocument-loading.service";
 import {XxxUserActions} from './xxx-user.actions';
 import {XxxUserApiResponse} from "./xxx-user.types";
 import {XxxUserDataService} from "./xxx-user-data.service";
@@ -67,7 +67,7 @@ export class XxxUserEffects {
         private router: Router,
         private store: Store,
         private alertService: XxxAlertService,
-        private loadingService: XxxLoadingService,
+        private loadingService: EdocumentLoadingService,
         private userDataService: XxxUserDataService,
     ) {
     }

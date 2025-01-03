@@ -1,0 +1,143 @@
+<div class="flex items-center justify-center min-h-screen text-gray-900">
+  <div class="container px-4 py-8 mx-auto">
+    <!-- Title -->
+    <h1 class="mb-8 text-3xl font-bold text-center">Gestion des Documents</h1>
+
+    <!-- Document Types -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-semibold text-center">Types de Documents</h2>
+      <div class="max-w-md mx-auto">
+        <label for="type-document" class="block mb-2 text-sm font-medium text-center text-gray-700">
+          Sélectionnez un type de document
+        </label>
+        <select
+          id="type-document"
+          class="w-full px-4 py-2 border rounded-md"
+          (change)="onSelect($event, 'typeDocument')"
+        >
+          <option value="rapport" selected>Rapport</option>
+          <option value="facture">Facture</option>
+          <option value="contrat">Contrat</option>
+          <option value="offre">Offre</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Form Fields -->
+    <section class="p-6 bg-white rounded shadow">
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <!-- Date Range -->
+        <div>
+          <label for="date-range" class="block mb-2 text-sm font-medium text-gray-700">
+            Date Range
+          </label>
+          <input
+            type="date"
+            id="date-range"
+            class="w-full px-4 py-2 border rounded-md"
+            (change)="onSelect($event, 'dateRange')"
+            placeholder="Select a date range"
+          />
+        </div>
+
+        <!-- Period -->
+        <div>
+          <label for="periode" class="block mb-2 text-sm font-medium text-gray-700">
+            Période
+          </label>
+          <select
+            id="periode"
+            class="w-full px-4 py-2 border rounded-md"
+            (change)="onSelect($event, 'periode')"
+          >
+            <option value="mensuelle">Mensuelle</option>
+            <option value="trimestrielle">Trimestrielle</option>
+            <option value="annuelle">Annuelle</option>
+          </select>
+        </div>
+
+        <!-- Currency -->
+        <div>
+          <label for="devise" class="block mb-2 text-sm font-medium text-gray-700">
+            Devise
+          </label>
+          <select
+            id="devise"
+            class="w-full px-4 py-2 border rounded-md"
+            (change)="onSelect($event, 'devise')"
+          >
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+            <option value="GBP">GBP</option>
+          </select>
+        </div>
+
+        <!-- Invoice -->
+        <div>
+          <label for="facture" class="block mb-2 text-sm font-medium text-gray-700">
+            Numéro de Facture
+          </label>
+          <input
+            type="text"
+            id="facture"
+            placeholder="Entrez le numéro de facture"
+            class="w-full px-4 py-2 border rounded-md"
+            (change)="onSelect($event, 'facture')"
+          />
+        </div>
+
+        <!-- Account and Label -->
+        <div class="lg:col-span-2">
+          <label for="compte" class="block mb-2 text-sm font-medium text-gray-700">
+            Compte et Libellé
+          </label>
+          <select
+            id="account-select"
+            class="block w-full p-3 font-medium text-gray-800 bg-white border border-gray-300 rounded-lg shadow-lg focus:ring-2 focus:ring-indigo-500"
+            placeholder="Choisir un compte..."
+          >
+            <option value="1">
+              <div class="flex flex-col items-start">
+                <span class="text-xl text-white">🇺🇸</span>
+                <span class="font-semibold text-white">Account</span>
+                <span class="text-white">12345</span>
+              </div>
+            </option>
+            <option value="2">
+              <div class="flex flex-col items-start">
+                <span class="text-xl text-white">🇬🇧</span>
+                <span class="font-semibold text-white">Account</span>
+                <span class="text-white">67890</span>
+              </div>
+            </option>
+            <option value="3">
+              <div class="flex flex-col items-start">
+                <span class="text-xl text-white">🇫🇷</span>
+                <span class="font-semibold text-white">Account</span>
+                <span class="text-white">24680</span>
+              </div>
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Selected Chips -->
+      <div class="flex flex-wrap gap-2 mt-6">
+        <span
+          *ngFor="let chip of chips"
+          class="inline-block px-4 py-2 text-white rounded-md"
+          [ngStyle]="{'background-color': chip.color}"
+        >
+          {{ chip.label }}
+        </span>
+      </div>
+
+      <!-- Search Button -->
+      <div class="mt-6 text-right">
+        <button class="px-6 py-2 text-white bg-blue-600 rounded-md shadow hover:bg-blue-700">
+          Rechercher Document
+        </button>
+      </div>
+    </section>
+  </div>
+</div>
