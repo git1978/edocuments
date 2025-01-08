@@ -44,7 +44,6 @@ export class FilterEffects {
     )
   );
 
-  // Effect for fetching typeDocuments data
   loadTypeDocuments$ = createEffect(() =>
     this.actions$.pipe(
       ofType(FilterActions.getTypeDocumentFilterJson),

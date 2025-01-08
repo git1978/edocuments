@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FilterFacade } from '../filter.facade';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs/internal/Observable';
+import { Compte, Devise, TypeDocument } from '../filter.types';
+import { Store } from '@ngrx/store';
+import { FilterActions } from '../filter.actions';
+import { selectComptes } from '../filter.selectors';
 
 @Component({
   selector: 'edocument-filter',
@@ -12,23 +17,22 @@ import { CommonModule } from '@angular/common';
 export class FilterComponent implements OnInit {
   chips: { label: string; color: string }[] = [
   ];
+      comptes$: Observable<Compte[]> | undefined;  // Déclaration des variables sans initialisation
+      devises$: Observable<Devise[]> | undefined;
+      typeDocuments$: Observable<TypeDocument[]> | undefined;
+      loading$: Observable<boolean> | undefined;
+      loaded$: Observable<boolean> | undefined;
+      error$: Observable<any> | undefined;
 
-    comptes$ = this.filterFacade.comptes$;
-    devises$ = this.filterFacade.devises$;
-    typeDocuments$ = this.filterFacade.typeDocuments$;
-    loading$ = this.filterFacade.loading$;
-    loaded$ = this.filterFacade.loaded$;  // Nouveau indicateur
-    error$ = this.filterFacade.error$;
+   
   
     constructor(private filterFacade: FilterFacade) {}
   
     ngOnInit() {
-      this.filterFacade.loadComptes();
-      this.filterFacade.loadDevises();
-      this.filterFacade.loadTypeDocuments();
+      this.comptes$ = this.filterFacade.comptes$; 
+      this.devises$ = this.filterFacade.devises$; 
+      this.typeDocuments$ = this.filterFacade.typeDocuments$; 
     }
-
-
 
   onSelect(event: Event, field: string) {
     const target = event.target as HTMLInputElement | HTMLSelectElement;

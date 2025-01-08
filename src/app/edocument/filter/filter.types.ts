@@ -27,6 +27,25 @@ export interface TypeDocument {
   options: Option[];
 }
 
+
+export interface CompteResponse {
+  comptes: {
+    data: Compte[];
+  };
+}
+
+export interface DeviseResponse {
+  devises: {
+    data: Devise[];
+  };
+}
+
+export interface TypeDocumentResponse {
+  types: {
+    data: TypeDocument[];
+  };
+}
+
 export interface Document {
   documentId: string;
   locationId: string;

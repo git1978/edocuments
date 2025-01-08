@@ -1,5 +1,30 @@
 <div class="flex items-center justify-center min-h-screen text-gray-900">
   <div class="container px-4 py-8 mx-auto">
+
+Comptes
+
+    <div *ngIf="comptes$ | async as comptes">
+      <div class="product-item" *ngFor="let compte of comptes">
+        <p>{{compte.account}}</p>
+        <span>{{compte.amount| currency}}</span>
+      </div>
+    </div>
+    
+Devises
+<div *ngIf="devises$ | async as devises">
+  <div class="product-item" *ngFor="let devise of devises">
+    <p>{{devise.country}}</p>
+    <span>{{devise.currency| currency}}</span>
+  </div>
+</div>
+
+typeDocuments
+<div *ngIf="typeDocuments$ | async as typeDocuments">
+  <div class="product-item" *ngFor="let typedocument of typeDocuments">
+    <p>{{typedocument.label}}</p>
+  </div>
+</div>
+
     <!-- Title -->
     <h1 class="mb-8 text-3xl font-bold text-center">Gestion des Documents</h1>
 
