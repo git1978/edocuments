@@ -9,4 +9,15 @@ body {
     color: white;
     border-radius: 0.5rem;
     font-size: 0.875rem;
-  }
+  }/* Flatpickr calendar style customization */
+.flatpickr-calendar {
+  @apply bg-white text-gray-800 border border-gray-300 rounded-md shadow-lg;
+}
+
+.flatpickr-day.selected {
+  @apply bg-blue-500 text-white;
+}
+
+.flatpickr-day:hover {
+  @apply bg-blue-300 text-white;
+}

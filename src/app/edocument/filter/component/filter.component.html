@@ -1,168 +1,131 @@
-<div class="flex items-center justify-center min-h-screen text-gray-900">
-  <div class="container px-4 py-8 mx-auto">
+<div class="flex items-center justify-center mt-1">
+  <div class="w-full p-6 bg-white rounded-lg shadow-md">
+    <!-- Navigation par fil d'Ariane -->
+    <nav aria-label="breadcrumb" class="text-sm text-gray-500">
+      <ol class="flex space-x-2">
+        <li class="breadcrumb-item">
+          <a href="/" class="text-blue-500 hover:underline">Accueil</a>
+        </li>
+        <li class="text-gray-900 breadcrumb-item active">
+          <span>Relevés & Factures</span>
+        </li>
+      </ol>
+    </nav>
 
-Comptes
+    <!-- Titre -->
+    <h1 class="mt-4 text-2xl font-bold text-gray-800 text-start">E-Documents</h1>
 
-    <div *ngIf="comptes$ | async as comptes">
-      <div class="product-item" *ngFor="let compte of comptes">
-        <p>{{compte.account}}</p>
-        <span>{{compte.amount| currency}}</span>
+    <div class="grid grid-cols-1 gap-4 mt-6 md:grid-cols-2 lg:grid-cols-3">
+
+      <!-- Sélection de Compte -->
+      <div class="col-span-1 md:col-span-2 lg:col-span-3">
+        <div *ngIf="comptes$ | async as comptes">
+          <comptes [comptes]="comptes"></comptes>
+        </div>
       </div>
-    </div>
-    
-Devises
-<div *ngIf="devises$ | async as devises">
-  <div class="product-item" *ngFor="let devise of devises">
-    <p>{{devise.country}}</p>
-    <span>{{devise.currency| currency}}</span>
-  </div>
-</div>
 
-typeDocuments
-<div *ngIf="typeDocuments$ | async as typeDocuments">
-  <div class="product-item" *ngFor="let typedocument of typeDocuments">
-    <p>{{typedocument.label}}</p>
-  </div>
-</div>
-
-    <!-- Title -->
-    <h1 class="mb-8 text-3xl font-bold text-center">Gestion des Documents</h1>
-
-    <!-- Document Types -->
-    <section class="mb-8">
-      <h2 class="mb-4 text-2xl font-semibold text-center">Types de Documents</h2>
-      <div class="max-w-md mx-auto">
-        <label for="type-document" class="block mb-2 text-sm font-medium text-center text-gray-700">
-          Sélectionnez un type de document
+      <!-- Type de Document -->
+      <div class="">
+        <label for="documentType" class="block text-sm font-medium text-gray-700">
+          Type de Document
         </label>
         <select
-          id="type-document"
-          class="w-full px-4 py-2 border rounded-md"
-          (change)="onSelect($event, 'typeDocument')"
+          id="documentType"
+          class="block w-full p-2 mt-1 bg-white border border-gray-300 rounded-md"
+          name="documentType"
         >
-          <option value="rapport" selected>Rapport</option>
-          <option value="facture">Facture</option>
-          <option value="contrat">Contrat</option>
-          <option value="offre">Offre</option>
+          <option value="">Choisir un type...</option>
+          <ng-container *ngIf="typeDocuments$ | async as typeDocuments">
+            <ng-container *ngFor="let category of typeDocuments">
+              <optgroup [label]="category.label">
+                <option
+                  *ngFor="let option of category.options"
+                  [value]="option.value"
+                  class="bg-white"
+                >
+                  {{ option.label }}
+                </option>
+              </optgroup>
+            </ng-container>
+          </ng-container>
         </select>
       </div>
-    </section>
 
-    <!-- Form Fields -->
-    <section class="p-6 bg-white rounded shadow">
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <!-- Date Range -->
-        <div>
-          <label for="date-range" class="block mb-2 text-sm font-medium text-gray-700">
-            Date Range
-          </label>
-          <input
-            type="date"
-            id="date-range"
-            class="w-full px-4 py-2 border rounded-md"
-            (change)="onSelect($event, 'dateRange')"
-            placeholder="Select a date range"
-          />
-        </div>
+      <!-- Sélection de Période -->
+      <div class=""> 
+        <label for="period" class="block text-sm font-medium text-gray-700">Période</label>
+        <select
+          id="period"
+          class="block w-full p-2 mt-1 border border-gray-300 rounded-md"
+          name="period"
+        >
+          <option value="">Choisir une période...</option>
+          <option value="QUOTIDIEN">QUOTIDIEN</option>
+          <option value="HEBDOMADAIRE">HEBDOMADAIRE</option>
+          <option value="MENSUEL">MENSUEL</option>
+          <option value="BIMENSUEL">BIMENSUEL</option>
+          <option value="TRIMESTRIEL">TRIMESTRIEL</option>
+          <option value="SEMESTRIEL">SEMESTRIEL</option>
+          <option value="ANNUEL">ANNUEL</option>
+        </select>
+      </div>
 
-        <!-- Period -->
-        <div>
-          <label for="periode" class="block mb-2 text-sm font-medium text-gray-700">
-            Période
-          </label>
+      <!-- Liste des Devises -->
+      <div class="">
+        <label for="currencyList" class="block text-sm font-medium text-gray-700">Liste des Devises</label>
+        <ng-container *ngIf="devises$ | async as devises">
           <select
-            id="periode"
-            class="w-full px-4 py-2 border rounded-md"
-            (change)="onSelect($event, 'periode')"
+            id="currencyList"
+            class="block w-full p-2 mt-1 border border-gray-300 rounded-md"
+            name="currency"
           >
-            <option value="mensuelle">Mensuelle</option>
-            <option value="trimestrielle">Trimestrielle</option>
-            <option value="annuelle">Annuelle</option>
+            <option value="">Choisir une devise...</option>
+            <option *ngFor="let devise of devises" [value]="devise.currency">
+              {{ devise.currency }} - {{ devise.country }}
+            </option>
           </select>
-        </div>
+        </ng-container>
+      </div>
 
-        <!-- Currency -->
-        <div>
-          <label for="devise" class="block mb-2 text-sm font-medium text-gray-700">
-            Devise
-          </label>
-          <select
-            id="devise"
-            class="w-full px-4 py-2 border rounded-md"
-            (change)="onSelect($event, 'devise')"
-          >
-            <option value="EUR">EUR</option>
-            <option value="USD">USD</option>
-            <option value="GBP">GBP</option>
-          </select>
-        </div>
-
-        <!-- Invoice -->
-        <div>
-          <label for="facture" class="block mb-2 text-sm font-medium text-gray-700">
-            Numéro de Facture
-          </label>
+      <!-- Numéro de Facture and Date Range on the same row -->
+      <div class="flex col-span-1 space-x-4 md:col-span-2 lg:col-span-3">
+        <!-- Numéro de Facture -->
+        <div class="w-1/2">
+          <label for="facture" class="block text-sm font-medium text-gray-700">Numéro de Facture</label>
           <input
             type="text"
             id="facture"
-            placeholder="Entrez le numéro de facture"
-            class="w-full px-4 py-2 border rounded-md"
-            (change)="onSelect($event, 'facture')"
+            class="block p-2 mt-1 border border-gray-300 rounded-md"
+            name="facture"
+            placeholder="Entrer le numéro de facture"
           />
         </div>
 
-        <!-- Account and Label -->
-        <div class="lg:col-span-2">
-          <label for="compte" class="block mb-2 text-sm font-medium text-gray-700">
-            Compte et Libellé
-          </label>
-          <select
-            id="account-select"
-            class="block w-full p-3 font-medium text-gray-800 bg-white border border-gray-300 rounded-lg shadow-lg focus:ring-2 focus:ring-indigo-500"
-            placeholder="Choisir un compte..."
-          >
-            <option value="1">
-              <div class="flex flex-col items-start">
-                <span class="text-xl text-white">🇺🇸</span>
-                <span class="font-semibold text-white">Account</span>
-                <span class="text-white">12345</span>
-              </div>
-            </option>
-            <option value="2">
-              <div class="flex flex-col items-start">
-                <span class="text-xl text-white">🇬🇧</span>
-                <span class="font-semibold text-white">Account</span>
-                <span class="text-white">67890</span>
-              </div>
-            </option>
-            <option value="3">
-              <div class="flex flex-col items-start">
-                <span class="text-xl text-white">🇫🇷</span>
-                <span class="font-semibold text-white">Account</span>
-                <span class="text-white">24680</span>
-              </div>
-            </option>
-          </select>
+        <!-- Date Range -->
+        <div class="w-full ">
+          <label for="dateRange" class="block text-sm font-medium text-gray-700 ">Date Range</label>
+          <div class="">
+            <input
+              id="dateRange"
+              type="text"
+              class="block w-full p-2 mt-1 border border-gray-300 rounded-md"
+              placeholder="Select a date range"
+              #dateRangeInput
+              formControlName="startDate"
+            />
+          </div>
         </div>
       </div>
 
-      <!-- Selected Chips -->
-      <div class="flex flex-wrap gap-2 mt-6">
-        <span
-          *ngFor="let chip of chips"
-          class="inline-block px-4 py-2 text-white rounded-md"
-          [ngStyle]="{'background-color': chip.color}"
-        >
-          {{ chip.label }}
-        </span>
-      </div>
+    </div>
 
-      <!-- Search Button -->
-      <div class="mt-6 text-right">
-        <button class="px-6 py-2 text-white bg-blue-600 rounded-md shadow hover:bg-blue-700">
-          Rechercher Document
-        </button>
-      </div>
-    </section>
+    <!-- Section des Chips -->
+    <div class="flex flex-wrap mt-6 space-x-2">
+      <span class="p-2 bg-[#972e0d] text-white rounded-md text-[10px]">Dates: 12/12/2025</span>
+      <span class="p-2 bg-[#008565] text-white rounded-md text-[10px]">Compte: FRXXXXXXXXXX</span>
+      <span class="p-2 bg-[#4b2fb6] text-white rounded-md text-[10px]">Période: MENSUEL</span>
+      <span class="p-2 bg-[#007cb1] text-white rounded-md text-[10px]">Devise: EUR</span>
+      <span class="p-2 bg-[#4a4a4a] text-white rounded-md text-[10px]">Facture: 234256662</span>
+    </div>
   </div>
 </div>

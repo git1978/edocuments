@@ -1,0 +1,53 @@
+<div class="relative">
+    <!-- Dropdown Button -->
+    <button
+        class="flex items-center block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
+        (click)="toggleDropdown()">
+        @if (selectedAccount) {
+            <img
+                [src]="'https://flagcdn.com/w40/' + selectedAccountFlag + '.png'"
+                alt="Flag"
+                class="flag-icon me-2"
+            />
+        }
+        {{ selectedAccount ? selectedAccount : 'Sélectionner un compte' }}
+    </button>
+
+    @if (isDropdownVisible) {
+    <!-- Dropdown Menu -->
+    <div 
+        class="absolute z-10 w-full mt-1 overflow-y-auto bg-white border border-gray-300 rounded-md shadow-lg max-h-64">
+        
+        <!-- Autocomplete Input -->
+        <div class="m-2 text-[#74777f]"> Choisir un compte...</div>
+        <div class="p-2">
+            <input
+                type="text"
+                [(ngModel)]="searchTerm"
+                (input)="filterAccounts()"
+                placeholder="Rechercher un compte..."
+                class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+        </div>
+        <!-- Accounts List -->
+        @for (compte of filteredComptes.length > 0 ? filteredComptes : comptes; track compte.id) {
+            <div 
+                class="items-center px-3 py-2 cursor-pointer hover:bg-indigo-100" 
+                (click)="selectAccount(compte)">
+              
+                {{ compte.label }}
+                <div class="flex">
+                    <span>
+                        <img
+                            [src]="'https://flagcdn.com/w40/' + compte.account.substring(0, 2).toLowerCase() + '.png'"
+                            alt="Flag"
+                            class="flag-icon me-2"
+                        />
+                    </span>
+                    <span class="text-sm text-gray-500">{{ compte.account }}</span>
+                </div>
+            </div>
+        }
+    </div>
+    }
+</div>
