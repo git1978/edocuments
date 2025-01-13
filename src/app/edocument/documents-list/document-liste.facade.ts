@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { DocumentActions } from './document-list.action';
 import { DocumentState } from './document-liste.reducer';
-import { selectDocuments, selectDocumentsLoading, selectDocumentsLoaded, selectDocumentsError } from './document-liste.selector';
+import { selectDocuments, selectError, selectLoading} from './document-liste.selector';
 import { SearchCriteria } from '../filter/filter.types';
 
 @Injectable({
@@ -10,9 +10,8 @@ import { SearchCriteria } from '../filter/filter.types';
 })
 export class DocumentFacade {
   documents$ = this.store.select(selectDocuments);
-  loading$ = this.store.select(selectDocumentsLoading);
-  loaded$ = this.store.select(selectDocumentsLoaded); // Expose loaded
-  error$ = this.store.select(selectDocumentsError);
+  loading$ = this.store.select(selectLoading);
+  error$ = this.store.select(selectError);
 
   constructor(private readonly store: Store<DocumentState>) {}
 

@@ -34,7 +34,7 @@ export class DocumentsService {
   }
 
   getDocuments(formSubmit: SearchCriteria): Observable<Documents[]> {
-    console.log('Form submitted:', formSubmit);
+    //console.log('Form submitted:', formSubmit);
     return this.http.get<DocumentsResponse>(`${this.baseUrl}documents.json`).pipe(
       map((response: DocumentsResponse) => response.documents.data) // Extract the `data` array
     );

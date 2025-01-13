@@ -32,7 +32,7 @@
       <!-- Type de Document -->
       <div class="">
         <label for="documentType" class="block text-sm font-medium text-gray-700">
-          Type de Document
+          {{ 'filter.typedoc' | translate }}
         </label>
         <select
           id="documentType"
@@ -133,15 +133,23 @@
 
     
     <div class="flex flex-wrap mt-6 space-x-2">
-      <div *ngIf="dateRange" class="bg-[#972e0d] p-2 text-white rounded-md text-[10px] flex items-center">
+      @if(dateRange){
+      <div class="bg-[#972e0d] p-2 text-white rounded-md text-[10px] flex items-center">
         <span>{{ dateRange }}</span>
         <span 
           class="ml-2 text-white cursor-pointer hover:text-gray-300">
           &#10005;
           </span>
       </div>
-
-
+      }@else{
+        <div class="bg-[#972e0d] p-2 text-white rounded-md text-[10px] flex items-center">
+          <span>{{ today | date: 'yyyy-MM-dd'}} to {{ today | date: 'yyyy-MM-dd'}}</span>
+          <span 
+            class="ml-2 text-white cursor-pointer hover:text-gray-300">
+            &#10005;
+            </span>
+        </div>
+      }
     
      
         @if(chips.length > 0){
@@ -173,7 +181,7 @@
         type="submit"
         class="float-right px-4 py-2 text-[14px] text-white bg-[#26a676] border border-[#26a676] rounded-md hover:text-[#26a676] hover:bg-white hover:border-[#26a676]"
       >
-        Appliquer le filtre
+        {{ 'login.button' | translate }}
       </button>      
     </div>
   </form>

@@ -12,7 +12,7 @@ import { XxxFooterComponent } from './xxx-footer/xxx-footer.component';
         XxxHeaderComponent,
         XxxMenuComponent,
         XxxFooterComponent,
-        EdocumentLoadingComponent
+        EdocumentLoadingComponent,
     ],
     selector: 'app-root',
     standalone: true,

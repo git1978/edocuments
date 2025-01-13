@@ -6,6 +6,7 @@ import { FilterActions } from './filter.actions';
 import { Compte, Devise, SearchCriteria, TypeDocument } from './filter.types';
 import { selectComptes, selectDevises, selectTypeDocuments, selectLoading, selectError, selectLoaded } from './filter.selectors';
 import { DocumentFacade } from '../documents-list/document-liste.facade';
+import { DocumentActions } from '../documents-list/document-list.action';
 
 @Injectable({
   providedIn: 'root',
@@ -26,5 +27,7 @@ export class FilterFacade {
 
 
   loadDocuments(searchCriteria: SearchCriteria): void {
-    this.documentFacade.loadDocuments(searchCriteria);
+   // this.documentFacade.loadDocuments(searchCriteria);
+    this.store.dispatch(DocumentActions.loadDocuments({ searchCriteria }));
+
   }}

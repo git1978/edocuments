@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12,10 +13,18 @@ import {Router, RouterLink} from '@angular/router';
 export class XxxHeaderComponent {
   userInfo: string = 'YOUNESS ABACH - BH2373243 - DERNIÈRE CONNEXION LE 12/01/2025 À 08:49:20';
 
-  constructor(private router: Router) {}
+
+
+  constructor(private readonly router: Router, private readonly translate: TranslateService) {
+    const language = sessionStorage.getItem('language') ?? 'fr';
+    this.translate.use(language);
+
+  }
 
   changeLanguage(language: string): void {
+    this.translate.use(language); // Change the language
     console.log('Language changed to:', language);
+    sessionStorage.setItem('language', language);
   }
 
   logout(): void {

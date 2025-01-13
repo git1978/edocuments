@@ -3,10 +3,22 @@ import { DocumentState } from './document-liste.reducer';
 
 export const selectDocumentState = createFeatureSelector<DocumentState>('documents');
 
-export const selectDocuments = createSelector(selectDocumentState, (state) => state.documents);
-export const selectDocumentsLoading = createSelector(selectDocumentState, (state) => state.loading);
-export const selectDocumentsLoaded = createSelector(selectDocumentState, (state) => state.loaded); // Nouveau sélecteur
-export const selectDocumentsError = createSelector(selectDocumentState, (state) => state.error);
+export const selectDocuments = createSelector(
+  selectDocumentState,
+  (state) => state?.documents || [] // Utilisation de l'opérateur `?.` pour éviter les erreurs
+);
 
+export const selectLoading = createSelector(
+  selectDocumentState,
+  (state) => state?.loading || false
+);
 
+export const selectLoaded = createSelector(
+  selectDocumentState,
+  (state) => state?.loaded || false
+);
 
+export const selectError = createSelector(
+  selectDocumentState,
+  (state) => state?.error || null
+);

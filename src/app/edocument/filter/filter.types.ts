@@ -2,7 +2,7 @@ import { AbstractControl } from "@angular/forms";
 
 export const filterFeatureName = 'filter';
 
-export const listeDocuments = 'listeDocuments';
+export const documentsFeatureName = 'documents';
 
 
 export interface SearchCriteria {

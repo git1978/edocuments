@@ -2,23 +2,21 @@
   "welcome": "Bienvenue dans notre application !",
   "login": {
     "title": "Connexion",
-    "button": "Soumettre"
+    "button": "Appliquer le filtre"
   },
   "filter": {
-    "typedoc": "Type de Document en",
-    "plagedate": "Date de publication en ",
+    "typedoc": "Type de Document",
+    "plagedate": "Date de publication",
     "compte": "Compte",
-    "listecompte": "Liste des comptes",
     "devise": "Devise de compte",
     "type": "Type",
-    "filtredate": "Filtre de date en",
+    "filtredate": "Filtre de date",
     "libCompte": "libellé ou jumero de compte",
     "periodicite": "Periodicité",
     "fusioncompte": "Fusion de compte",
     "selecttypecompte": "Selectionner le type de compte :",
     "facture": "Facture",
     "detail": "Détail",
-    "searchbtn":"search documents"
+    "searchbtn": "find documents"
   }
-  
 }

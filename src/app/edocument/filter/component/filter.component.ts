@@ -9,11 +9,12 @@ import flatpickr from 'flatpickr';
 import { DocumentsListComponent } from "../../documents-list/component/documents-list.component";
 import { DocumentFacade } from '../../documents-list/document-liste.facade';
 import { typeDocumentPipe } from "../../pipe/typeDocument.pipe";
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'edocument-filter',
   standalone: true,
-  imports: [CommonModule, ComptesComponent, DocumentsListComponent, ReactiveFormsModule, typeDocumentPipe],
+  imports: [CommonModule, ComptesComponent, DocumentsListComponent, ReactiveFormsModule, typeDocumentPipe, TranslateModule],
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss'], // Fixed `styleUrl` to `styleUrls`
   schemas: [CUSTOM_ELEMENTS_SCHEMA] // Allow custom elements
@@ -28,8 +29,8 @@ export class FilterComponent implements OnInit, AfterViewInit{
   loaded$: Observable<boolean> | undefined;
   error$: Observable<any> | undefined;
   dateRange: string | null = null; // Store the selected date range
-
-  
+  @ViewChild('dateRangeInput') dateRangeInput!: ElementRef;
+  today: Date= new Date();
 
   documents$: Observable<Documents[]> = this.documentFacade.documents$;
   loadingList$: Observable<boolean> | undefined = this.documentFacade.loading$;
@@ -39,7 +40,8 @@ export class FilterComponent implements OnInit, AfterViewInit{
 }> = [];
 
 
-  @ViewChild('dateRangeInput') dateRangeInput!: ElementRef;
+ 
+
 
 
 
@@ -85,10 +87,6 @@ export class FilterComponent implements OnInit, AfterViewInit{
       this.addChip('account', formValues.account);
     }
     
-    if (formValues.currency) {
-      this.addChip('currency', formValues.currency);
-    }
-  
     if (formValues.documentType) {
       this.addChip('documentType', formValues.documentType);
     }
@@ -99,6 +97,10 @@ export class FilterComponent implements OnInit, AfterViewInit{
   
     if (formValues.period) {
       this.addChip('period', formValues.period);
+    }
+
+    if (formValues.currency) {
+      this.addChip('currency', formValues.currency);
     }
 
     if (formValues.dateRange) {
