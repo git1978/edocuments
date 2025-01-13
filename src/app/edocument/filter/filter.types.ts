@@ -1,5 +1,8 @@
+import { AbstractControl } from "@angular/forms";
 
 export const filterFeatureName = 'filter';
+
+export const listeDocuments = 'listeDocuments';
 
 
 export interface Compte {
@@ -46,7 +49,13 @@ export interface TypeDocumentResponse {
   };
 }
 
-export interface Document {
+export interface DocumentsResponse {
+  documents: {
+    data: Documents[];
+  };
+}
+
+export interface Documents {
   documentId: string;
   locationId: string;
   familyCode: string;
@@ -78,3 +87,27 @@ export interface Document {
   bankStatementType: string;
 }
 
+
+
+// Interface pour le formulaire par défaut
+export interface DefaultDocForm {
+  facture: AbstractControl<string>;
+  contrat: AbstractControl<string>;
+  account: AbstractControl<Compte>;
+  dateForm: AbstractControl<Date[]>;
+  devise: AbstractControl<Devise>;
+ // periodicite: AbstractControl<DropdownItem>;
+  //typeDocFilter: AbstractControl<DropdownItem>;
+}
+
+// Interface pour le formulaire de document avec des champs optionnels
+export interface DocumentForm {
+  facture?: string;
+  contrat?: string;
+  accounts?: Compte[];
+  dateForm?: Date[];
+  devise?: Devise;
+  //periodicite?: DropdownItem;
+  //typeDocFilter?: DropdownItem;
+  //currency?: DropdownItem;
+}

@@ -1,0 +1,39 @@
+<div class="document-list">
+  <h2>Liste des Documents</h2>
+
+  <!-- Loader -->
+  <div *ngIf="loading$" class="loader">Chargement...</div>
+
+  <!-- Error Message -->
+  <div *ngIf="error$" class="error">
+    Une erreur s'est produite : {{ error$ }}
+  </div>
+
+  <!-- Table -->
+  <table *ngIf="!loading$ && documents$?.length" class="document-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let document of documents$ | async as documents">
+        <td>{{ document.documentId }}</td>
+        <td>{{ document.docTypeNet }}</td>
+        <td>{{ document.productionDate }}</td>
+        <td>
+          <button (click)="viewDocument(document.documentId)">Voir</button>
+          <button (click)="deleteDocument(document.documentId)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading$ && !documents$?.length" class="empty-state">
+    Aucun document disponible.
+  </div>
+</div>

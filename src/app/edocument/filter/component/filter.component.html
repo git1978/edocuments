@@ -14,13 +14,16 @@
 
     <!-- Titre -->
     <h1 class="mt-4 text-2xl font-bold text-gray-800 text-start">E-Documents</h1>
-
+    <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
     <div class="grid grid-cols-1 gap-4 mt-6 md:grid-cols-2 lg:grid-cols-3">
+   
 
       <!-- Sélection de Compte -->
       <div class="col-span-1 md:col-span-2 lg:col-span-3">
         <div *ngIf="comptes$ | async as comptes">
-          <comptes [comptes]="comptes"></comptes>
+          <comptes [comptes]="comptes" 
+          (accountSelected)="filterForm.get('account')?.setValue($event)">
+        </comptes>
         </div>
       </div>
 
@@ -33,6 +36,7 @@
           id="documentType"
           class="block w-full p-2 mt-1 bg-white border border-gray-300 rounded-md"
           name="documentType"
+          formControlName="documentType"
         >
           <option value="">Choisir un type...</option>
           <ng-container *ngIf="typeDocuments$ | async as typeDocuments">
@@ -58,6 +62,7 @@
           id="period"
           class="block w-full p-2 mt-1 border border-gray-300 rounded-md"
           name="period"
+          formControlName="period"
         >
           <option value="">Choisir une période...</option>
           <option value="QUOTIDIEN">QUOTIDIEN</option>
@@ -78,6 +83,7 @@
             id="currencyList"
             class="block w-full p-2 mt-1 border border-gray-300 rounded-md"
             name="currency"
+            formControlName="currency"
           >
             <option value="">Choisir une devise...</option>
             <option *ngFor="let devise of devises" [value]="devise.currency">
@@ -97,6 +103,7 @@
             id="facture"
             class="block p-2 mt-1 border border-gray-300 rounded-md"
             name="facture"
+            formControlName="facture"
             placeholder="Entrer le numéro de facture"
           />
         </div>
@@ -116,16 +123,26 @@
           </div>
         </div>
       </div>
-
     </div>
-
-    <!-- Section des Chips -->
-    <div class="flex flex-wrap mt-6 space-x-2">
-      <span class="p-2 bg-[#972e0d] text-white rounded-md text-[10px]">Dates: 12/12/2025</span>
-      <span class="p-2 bg-[#008565] text-white rounded-md text-[10px]">Compte: FRXXXXXXXXXX</span>
-      <span class="p-2 bg-[#4b2fb6] text-white rounded-md text-[10px]">Période: MENSUEL</span>
-      <span class="p-2 bg-[#007cb1] text-white rounded-md text-[10px]">Devise: EUR</span>
-      <span class="p-2 bg-[#4a4a4a] text-white rounded-md text-[10px]">Facture: 234256662</span>
+      <!-- Section des Chips -->
+      <div class="flex flex-wrap mt-6 space-x-2">
+        <span class="p-2 bg-[#972e0d] text-white rounded-md text-[10px]">Dates: 12/12/2025</span>
+        <span class="p-2 bg-[#008565] text-white rounded-md text-[10px]">Compte: FRXXXXXXXXXX</span>
+        <span class="p-2 bg-[#4b2fb6] text-white rounded-md text-[10px]">Période: MENSUEL</span>
+        <span class="p-2 bg-[#007cb1] text-white rounded-md text-[10px]">Devise: EUR</span>
+        <span class="p-2 bg-[#4a4a4a] text-white rounded-md text-[10px]">Facture: 234256662</span>
+      </div>
+    <div class="mt-6">
+      <button
+        type="submit"
+        class="items-end px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
+      >
+        Submit
+      </button>
     </div>
-  </div>
+  </form>
 </div>
+</div>
+
+
+<documents-list></documents-list>

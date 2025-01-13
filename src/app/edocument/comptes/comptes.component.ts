@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, Renderer2, ElementRef, HostListener } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, Renderer2, ElementRef, HostListener, Output, EventEmitter } from '@angular/core';
 import { Compte } from '../filter/filter.types';
 import { FormsModule } from '@angular/forms';
 
@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class ComptesComponent implements OnChanges {
   @Input() comptes: Compte[] = []; // Accepts a list of comptes as input
+  @Output() accountSelected = new EventEmitter<string>(); // Emit selected account to parent
+
 
   selectedAccount: string | null = null;
   selectedAccountFlag: string | null = null;
@@ -32,6 +34,7 @@ export class ComptesComponent implements OnChanges {
     this.selectedAccount = compte.account; // Updated to show the label instead of account
     this.selectedAccountFlag = compte.account.substring(0, 2).toLowerCase();
     this.isDropdownVisible = false;
+    this.accountSelected.emit(compte.account);
   }
 
   toggleDropdown(): void {

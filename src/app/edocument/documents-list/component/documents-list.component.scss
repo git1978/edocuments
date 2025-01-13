@@ -1,0 +1,36 @@
+.document-list {
+    margin: 20px;
+  }
+  
+  .document-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .document-table th,
+  .document-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .document-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .loader {
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .error {
+    color: red;
+    text-align: center;
+  }
+  
+  .empty-state {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+  }
+  

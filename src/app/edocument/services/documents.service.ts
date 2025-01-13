@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { Compte, CompteResponse, Devise, DeviseResponse, TypeDocument, TypeDocumentResponse } from '../filter/filter.types';
+import { Compte, CompteResponse, Devise, DeviseResponse, Documents, DocumentsResponse, TypeDocument, TypeDocumentResponse } from '../filter/filter.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DocumentsService {
 
-  private baseUrl = 'assets/mocks/'; // Base URL for mock data files
+  private readonly baseUrl = 'assets/mocks/'; // Base URL for mock data files
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
 
   getComptes(): Observable<Compte[]> {
@@ -30,6 +30,12 @@ export class DocumentsService {
   getTypeDocuments(): Observable<TypeDocument[]> {
     return this.http.get<TypeDocumentResponse>(`${this.baseUrl}documentTypes.json`).pipe(
       map((response: TypeDocumentResponse) => response.types.data) // Extract the `typeDocuments` array
+    );
+  }
+
+  getDocuments(): Observable<Documents[]> {
+    return this.http.get<DocumentsResponse>(`${this.baseUrl}documents.json`).pipe(
+      map((response: DocumentsResponse) => response.documents.data) // Extract the `data` array
     );
   }
   

@@ -1,18 +1,22 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FilterFacade } from '../filter.facade';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Compte, Devise, TypeDocument } from '../filter.types';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ComptesComponent } from '../../comptes/comptes.component';
 import flatpickr from 'flatpickr';
+import { DocumentsListComponent } from "../../documents-list/component/documents-list.component";
+import { DocumentFacade } from '../../documents-list/document-liste.facade';
 
 @Component({
   selector: 'edocument-filter',
   standalone: true,
-  imports: [CommonModule, ComptesComponent],
+  imports: [CommonModule, ComptesComponent, DocumentsListComponent, ReactiveFormsModule],
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss'], // Fixed `styleUrl` to `styleUrls`
+  schemas: [CUSTOM_ELEMENTS_SCHEMA] // Allow custom elements
+
 })
 export class FilterComponent implements OnInit, AfterViewInit{
   filterForm: FormGroup;
@@ -25,9 +29,12 @@ export class FilterComponent implements OnInit, AfterViewInit{
   chips: { period?: string; currency?: string } = {};
   @ViewChild('dateRangeInput') dateRangeInput!: ElementRef;
 
+
+
   constructor(
     private readonly filterFacade: FilterFacade,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly documentFacade: DocumentFacade
   ) {
     this.filterForm = this.fb.group({
       documentType: [''],
@@ -46,7 +53,9 @@ export class FilterComponent implements OnInit, AfterViewInit{
     this.loading$ = this.filterFacade.loading$;
     this.loaded$ = this.filterFacade.loaded$;
     this.error$ = this.filterFacade.error$;
+    this.documentFacade.loadDocuments();
   }
+
 
   ngAfterViewInit(): void {
     flatpickr(this.dateRangeInput.nativeElement, {
@@ -64,17 +73,8 @@ export class FilterComponent implements OnInit, AfterViewInit{
     
   }
 
-  updateChips(): void {
-    const { period, currency } = this.filterForm.value;
-    this.chips = {
-      period: period || undefined,
-      currency: currency || undefined,
-    };
-  }
-
   onSubmit(): void {
     if (this.filterForm.valid) {
-      // Add the submission logic here if needed.
       console.log('Form submitted:', this.filterForm.value);
     }
   }
