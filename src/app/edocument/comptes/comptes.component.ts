@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 export class ComptesComponent implements OnChanges {
   @Input() comptes: Compte[] = []; // Accepts a list of comptes as input
   @Output() accountSelected = new EventEmitter<string>(); // Emit selected account to parent
-
+  @Output() onChanged = new EventEmitter<string>();
 
   selectedAccount: string | null = null;
   selectedAccountFlag: string | null = null;
@@ -20,7 +20,7 @@ export class ComptesComponent implements OnChanges {
   filteredComptes: Compte[] = []; // Initialize as empty
   searchTerm = '';
 
-  constructor(private renderer: Renderer2, private elRef: ElementRef) {}
+  constructor(private readonly elRef: ElementRef) {}
 
   // React to changes in `comptes` input
   ngOnChanges(changes: SimpleChanges): void {
@@ -35,6 +35,7 @@ export class ComptesComponent implements OnChanges {
     this.selectedAccountFlag = compte.account.substring(0, 2).toLowerCase();
     this.isDropdownVisible = false;
     this.accountSelected.emit(compte.account);
+    this.onChanged.emit(this.searchTerm); // Emit the search term on change
   }
 
   toggleDropdown(): void {
@@ -55,6 +56,14 @@ export class ComptesComponent implements OnChanges {
     }
   }
 
+
+  resetSelection(): void {
+    this.selectedAccount = '';
+    this.selectedAccountFlag = '';
+    this.onChanged.emit(''); // Emit empty string to notify the parent
+  }
+
+  
   private resetSearch(): void {
     this.searchTerm = '';
     this.filteredComptes = [...this.comptes];

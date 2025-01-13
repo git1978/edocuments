@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DocumentFacade } from '../document-liste.facade';
+import { Documents } from '../../filter/filter.types';
 
 @Component({
   selector: 'documents-list',
@@ -9,16 +10,15 @@ import { DocumentFacade } from '../document-liste.facade';
   styleUrl: './documents-list.component.scss'
 })
 export class DocumentsListComponent implements OnInit {
-  documents$ = this.documentFacade.documents$;
-  loading$ = this.documentFacade.loading$;
-  loaded$ = this.documentFacade.loaded$; // Utilisation de loaded
-  error$ = this.documentFacade.error$;
+  @Input() documents: Documents[] = []; // Accept documents as input
+  @Input() loading: boolean = false; // Accept loading state
+  @Input() loaded: boolean = false; // Accept loading state
+  @Input() error: any = null; // Accept error state
+
 
   constructor(private readonly documentFacade: DocumentFacade) {}
 
-  ngOnInit(): void {
-    this.documentFacade.loadDocuments();
-  }
+  ngOnInit(): void { /* TODO document why this method 'ngOnInit' is empty */ }
 
   viewDocument(id: string): void {
     // Logique pour voir le détail du document

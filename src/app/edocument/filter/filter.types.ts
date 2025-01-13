@@ -5,6 +5,16 @@ export const filterFeatureName = 'filter';
 export const listeDocuments = 'listeDocuments';
 
 
+export interface SearchCriteria {
+  documentType: string;
+  dateRange: Date[];
+  account: string;
+  period: string;
+  currency: string;
+  facture: string;
+}
+
+
 export interface Compte {
   id: number;
   value: string;

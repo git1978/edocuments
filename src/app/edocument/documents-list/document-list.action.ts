@@ -1,10 +1,10 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Documents } from '../filter/filter.types';
+import { createActionGroup, props } from '@ngrx/store';
+import { Documents, SearchCriteria } from '../filter/filter.types';
 export const DocumentActions = createActionGroup({
   source: 'Documents',
   events: {
     // Déclenchement de chargement
-    'Load Documents': emptyProps(),
+    'Load Documents': props<{ searchCriteria: SearchCriteria }>(),
 
     // Succès du chargement
     'Load Documents Success': props<{ documents: Documents[] }>(),

@@ -7,3 +7,6 @@ export const selectDocuments = createSelector(selectDocumentState, (state) => st
 export const selectDocumentsLoading = createSelector(selectDocumentState, (state) => state.loading);
 export const selectDocumentsLoaded = createSelector(selectDocumentState, (state) => state.loaded); // Nouveau sélecteur
 export const selectDocumentsError = createSelector(selectDocumentState, (state) => state.error);
+
+
+

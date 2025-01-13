@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { Compte, CompteResponse, Devise, DeviseResponse, Documents, DocumentsResponse, TypeDocument, TypeDocumentResponse } from '../filter/filter.types';
+import { Compte, CompteResponse, Devise, DeviseResponse, Documents, DocumentsResponse, SearchCriteria, TypeDocument, TypeDocumentResponse } from '../filter/filter.types';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +33,8 @@ export class DocumentsService {
     );
   }
 
-  getDocuments(): Observable<Documents[]> {
+  getDocuments(formSubmit: SearchCriteria): Observable<Documents[]> {
+    console.log('Form submitted:', formSubmit);
     return this.http.get<DocumentsResponse>(`${this.baseUrl}documents.json`).pipe(
       map((response: DocumentsResponse) => response.documents.data) // Extract the `data` array
     );

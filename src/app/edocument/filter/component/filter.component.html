@@ -21,8 +21,10 @@
       <!-- Sélection de Compte -->
       <div class="col-span-1 md:col-span-2 lg:col-span-3">
         <div *ngIf="comptes$ | async as comptes">
-          <comptes [comptes]="comptes" 
-          (accountSelected)="filterForm.get('account')?.setValue($event)">
+          <comptes [comptes]="comptes"
+          (accountSelected)="filterForm.get('account')?.setValue($event)"
+          (onChanged)="addToListChip()"
+          >
         </comptes>
         </div>
       </div>
@@ -37,6 +39,7 @@
           class="block w-full p-2 mt-1 bg-white border border-gray-300 rounded-md"
           name="documentType"
           formControlName="documentType"
+          (change)="addToListChip()"
         >
           <option value="">Choisir un type...</option>
           <ng-container *ngIf="typeDocuments$ | async as typeDocuments">
@@ -63,6 +66,7 @@
           class="block w-full p-2 mt-1 border border-gray-300 rounded-md"
           name="period"
           formControlName="period"
+          (change)="addToListChip()"
         >
           <option value="">Choisir une période...</option>
           <option value="QUOTIDIEN">QUOTIDIEN</option>
@@ -84,6 +88,7 @@
             class="block w-full p-2 mt-1 border border-gray-300 rounded-md"
             name="currency"
             formControlName="currency"
+            (change)="addToListChip()"
           >
             <option value="">Choisir une devise...</option>
             <option *ngFor="let devise of devises" [value]="devise.currency">
@@ -105,44 +110,79 @@
             name="facture"
             formControlName="facture"
             placeholder="Entrer le numéro de facture"
+            (change)="addToListChip()"
           />
         </div>
 
         <!-- Date Range -->
         <div class="w-full ">
-          <label for="dateRange" class="block text-sm font-medium text-gray-700 ">Date Range</label>
-          <div class="">
+          <label for="dateRange" class="block text-sm font-medium text-gray-700">Date Range</label>
+          <div>
             <input
               id="dateRange"
-              type="text"
+              type="date"
               class="block w-full p-2 mt-1 border border-gray-300 rounded-md"
               placeholder="Select a date range"
               #dateRangeInput
-              formControlName="startDate"
+              (input)="updateDateRange(dateRangeInput.value)"
             />
           </div>
         </div>
       </div>
     </div>
-      <!-- Section des Chips -->
-      <div class="flex flex-wrap mt-6 space-x-2">
-        <span class="p-2 bg-[#972e0d] text-white rounded-md text-[10px]">Dates: 12/12/2025</span>
-        <span class="p-2 bg-[#008565] text-white rounded-md text-[10px]">Compte: FRXXXXXXXXXX</span>
-        <span class="p-2 bg-[#4b2fb6] text-white rounded-md text-[10px]">Période: MENSUEL</span>
-        <span class="p-2 bg-[#007cb1] text-white rounded-md text-[10px]">Devise: EUR</span>
-        <span class="p-2 bg-[#4a4a4a] text-white rounded-md text-[10px]">Facture: 234256662</span>
+
+    
+    <div class="flex flex-wrap mt-6 space-x-2">
+      <div *ngIf="dateRange" class="bg-[#972e0d] p-2 text-white rounded-md text-[10px] flex items-center">
+        <span>{{ dateRange }}</span>
+        <span 
+          class="ml-2 text-white cursor-pointer hover:text-gray-300">
+          &#10005;
+          </span>
       </div>
-    <div class="mt-6">
-      <button
+
+
+    
+     
+        @if(chips.length > 0){
+        
+        <div *ngFor="let chip of chips" 
+              [ngClass]="{
+                'bg-[#008565]': chip.type === 'account', 
+                'bg-[#4b2fb6]': chip.type === 'period', 
+                'bg-[#007cb1]': chip.type === 'currency', 
+                'bg-[#4a4a4a]': chip.type === 'facture',
+                'bg-[#f59e0b]': chip.type === 'documentType' 
+              }"
+              class="p-2 text-white rounded-md text-[10px] flex items-center">
+              <span>{{ chip.type === 'documentType' ? (chip.label | typeDocument) : chip.label }}</span> 
+          <span 
+            (click)="removeChip(chip)" 
+            class="ml-2 text-white cursor-pointer hover:text-gray-300" 
+            aria-label="Remove chip">
+            &#10005;
+          </span>
+        </div>
+      }
+   
+
+    </div>
+    
+      <div class="mt-2">
+        <button
         type="submit"
-        class="items-end px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
+        class="float-right px-4 py-2 text-[14px] text-white bg-[#26a676] border border-[#26a676] rounded-md hover:text-[#26a676] hover:bg-white hover:border-[#26a676]"
       >
-        Submit
-      </button>
+        Appliquer le filtre
+      </button>      
     </div>
   </form>
 </div>
 </div>
 
-
-<documents-list></documents-list>
+<div *ngIf="documents$ | async as documents">
+  <documents-list
+    [documents]="documents"
+    [error]="errorList$ | async"
+  ></documents-list>
+</div>

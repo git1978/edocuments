@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { DocumentActions } from './document-list.action';
 import { DocumentState } from './document-liste.reducer';
 import { selectDocuments, selectDocumentsLoading, selectDocumentsLoaded, selectDocumentsError } from './document-liste.selector';
+import { SearchCriteria } from '../filter/filter.types';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class DocumentFacade {
 
   constructor(private readonly store: Store<DocumentState>) {}
 
-  loadDocuments(): void {
-    this.store.dispatch(DocumentActions.loadDocuments());
+  loadDocuments(searchCriteria: SearchCriteria): void {
+    this.store.dispatch(DocumentActions.loadDocuments({ searchCriteria }));
   }
 }
