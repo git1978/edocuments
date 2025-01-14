@@ -1,6 +1,7 @@
-import { Component, Input, OnChanges, SimpleChanges, Renderer2, ElementRef, HostListener, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, Renderer2, ElementRef, HostListener, Output, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { Compte } from '../filter/filter.types';
 import { FormsModule } from '@angular/forms';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'comptes',
@@ -13,29 +14,43 @@ export class ComptesComponent implements OnChanges {
   @Input() comptes: Compte[] = []; // Accepts a list of comptes as input
   @Output() accountSelected = new EventEmitter<string>(); // Emit selected account to parent
   @Output() onChanged = new EventEmitter<string>();
+  @Input() clean$!: Observable<boolean>
 
   selectedAccount: string | null = null;
   selectedAccountFlag: string | null = null;
   isDropdownVisible: boolean = false;
   filteredComptes: Compte[] = []; // Initialize as empty
   searchTerm = '';
+  private destroy$ = new Subject<void>(); // لإلغاء الاشتراك عند تدمير المكون
 
   constructor(private readonly elRef: ElementRef) {}
+
 
   // React to changes in `comptes` input
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['comptes'] && changes['comptes'].currentValue) {
       this.filteredComptes = [...this.comptes];
     }
+
+    this.clean$
+    .pipe(takeUntil(this.destroy$)) // إدارة دورة الحياة
+    .subscribe((clean) => {
+      if (clean) {
+        this.selectedAccount = '';
+        this.selectedAccountFlag = '';
+      } else {
+        console.log();
+      }
+    });
   }
 
   // Select account and close dropdown
   selectAccount(compte: Compte): void {
-    this.selectedAccount = compte.account; // Updated to show the label instead of account
-    this.selectedAccountFlag = compte.account.substring(0, 2).toLowerCase();
     this.isDropdownVisible = false;
     this.accountSelected.emit(compte.account);
-    this.onChanged.emit(this.searchTerm); // Emit the search term on change
+    this.onChanged.emit(this.searchTerm);
+    this.selectedAccount = compte.account; // Updated to show the label instead of account
+    this.selectedAccountFlag = compte.account.substring(0, 2).toLowerCase();
   }
 
   toggleDropdown(): void {

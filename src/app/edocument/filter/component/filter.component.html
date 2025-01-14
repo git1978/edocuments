@@ -22,8 +22,9 @@
       <div class="col-span-1 md:col-span-2 lg:col-span-3">
         <div *ngIf="comptes$ | async as comptes">
           <comptes [comptes]="comptes"
+          [clean$]="cleanCompte$"
           (accountSelected)="filterForm.get('account')?.setValue($event)"
-          (onChanged)="addToListChip()"
+          (onChanged)="addToListChip()"         
           >
         </comptes>
         </div>

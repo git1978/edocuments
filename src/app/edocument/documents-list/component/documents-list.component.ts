@@ -12,9 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './documents-list.component.scss'
 })
 export class DocumentsListComponent implements OnInit {
-downloadDocument(_t19: any) {
-throw new Error('Method not implemented.');
-}
+
 
   documents$: Observable<Documents[]> = this.documentFacade.documents$;
   loading$ = this.documentFacade.loading$;
@@ -33,6 +31,10 @@ throw new Error('Method not implemented.');
   deleteDocument(id: string): void {
     // Logique pour supprimer le document
     console.log(`Supprimer le document avec l'ID: ${id}`);
+  }
+
+  downloadDocument(_t19: any) {
+    throw new Error('Method not implemented.');
   }
   
 }

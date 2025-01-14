@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FilterFacade } from '../filter.facade';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Compte, Devise, Documents, SearchCriteria, TypeDocument } from '../filter.types';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ComptesComponent } from '../../comptes/comptes.component';
@@ -34,13 +34,12 @@ throw new Error('Method not implemented.');
   dateRange: string | null = null; // Store the selected date range
   @ViewChild('dateRangeInput') dateRangeInput!: ElementRef;
   today: Date= new Date();
-
   loadingList$: Observable<boolean> | undefined = this.documentFacade.loading$;
   errorList$: Observable<any> | undefined = this.documentFacade.error$;
   chips: Array<{
     type: string; label: string, value: string, bgColor: string 
 }> = [];
-
+  cleanCompte$: Observable<boolean> = of(false);
 
   constructor(
     private readonly filterFacade: FilterFacade,
@@ -81,6 +80,7 @@ throw new Error('Method not implemented.');
     const formValues = this.filterForm.value;
     
     if (formValues.account) {
+      this.cleanCompte$ = of(false);
       this.addChip('account', formValues.account);
     }
     
@@ -132,6 +132,7 @@ throw new Error('Method not implemented.');
         this.filterForm.get('facture')?.setValue(''); // Reset facture form control
         break;
       case 'account':
+        this.cleanCompte$ = of(true);
         this.filterForm.get('account')?.setValue(''); // Reset account form control
         break;
       case 'documentType':
@@ -163,6 +164,7 @@ throw new Error('Method not implemented.');
 
   onSubmit(): void {
     if (this.filterForm.valid) {
+      console.log('Form submitted:', this.filterForm.value);
       this.documentFacade.loadDocuments(this.filterForm.value as SearchCriteria);
     }
   }
