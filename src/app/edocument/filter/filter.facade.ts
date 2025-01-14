@@ -18,7 +18,6 @@ export class FilterFacade {
   loading$: Observable<boolean> = this.store.pipe(select(selectLoading));
   loaded$: Observable<boolean> = this.store.pipe(select(selectLoaded));
   error$: Observable<any> = this.store.pipe(select(selectError));
-  documents$ = this.documentFacade.documents$;
   constructor(private readonly store: Store<FilterState>, private readonly  documentFacade: DocumentFacade) {
     this.store.dispatch(FilterActions.getCompteJson());
     this.store.dispatch(FilterActions.getDeviseJson());

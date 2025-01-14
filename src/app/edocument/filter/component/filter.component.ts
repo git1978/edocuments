@@ -21,6 +21,9 @@ import { TranslateModule } from '@ngx-translate/core';
 
 })
 export class FilterComponent implements OnInit, AfterViewInit{
+downloadDocument(_t135: Documents) {
+throw new Error('Method not implemented.');
+}
   filterForm: FormGroup;
   comptes$: Observable<Compte[]> | undefined;
   devises$: Observable<Devise[]> | undefined;
@@ -32,17 +35,11 @@ export class FilterComponent implements OnInit, AfterViewInit{
   @ViewChild('dateRangeInput') dateRangeInput!: ElementRef;
   today: Date= new Date();
 
-  documents$: Observable<Documents[]> = this.documentFacade.documents$;
   loadingList$: Observable<boolean> | undefined = this.documentFacade.loading$;
   errorList$: Observable<any> | undefined = this.documentFacade.error$;
   chips: Array<{
     type: string; label: string, value: string, bgColor: string 
 }> = [];
-
-
- 
-
-
 
 
   constructor(
@@ -166,7 +163,6 @@ export class FilterComponent implements OnInit, AfterViewInit{
 
   onSubmit(): void {
     if (this.filterForm.valid) {
-      console.log('Form submitted:', this.filterForm.value);
       this.documentFacade.loadDocuments(this.filterForm.value as SearchCriteria);
     }
   }

@@ -1,39 +1,76 @@
-<div class="document-list">
+<div class="container p-4 mx-auto mt-6">
+  <div class="overflow-x-auto">
   <h2>Liste des Documents</h2>
 
-  <!-- Loader -->
-  <div *ngIf="loading$" class="loader">Chargement...</div>
-
-  <!-- Error Message -->
-  <div *ngIf="error$" class="error">
-    Une erreur s'est produite : {{ error }}
-  </div>
-
   <!-- Table -->
-  <table *ngIf="!loading$ && documents$?.length" class="document-table">
-    <thead>
+  <table class="min-w-full border border-gray-300 divide-y divide-gray-200 rounded-lg shadow-sm">
+    <thead class="bg-gray-100">
       <tr>
-        <th>ID</th>
-        <th>Nom</th>
-        <th>Description</th>
-        <th>Actions</th>
+        <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">
+          Date de publication
+        </th>
+        <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">
+          Nom du Document
+        </th>
+        <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">
+          Type
+        </th>
+        <th class="px-4 py-2 text-sm font-medium text-center text-gray-700">
+          Action
+        </th>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngFor="let document of documents$ | async as documents">
-        <td>{{ document.documentId }}</td>
-        <td>{{ document.docTypeNet }}</td>
-        <td>{{ document.productionDate }}</td>
-        <td>
-          <button (click)="viewDocument(document.documentId)">Voir</button>
-          <button (click)="deleteDocument(document.documentId)">Supprimer</button>
-        </td>
-      </tr>
+    <tbody class="divide-y divide-gray-200">
+        <tr
+          *ngFor="let document of documents$ | async as documents"
+          class="hover:bg-gray-50 odd:bg-white even:bg-gray-100"
+        >
+          <td class="px-4 py-2 text-sm text-gray-700">
+            {{ document.productionDate }}
+          </td>
+          <td class="px-4 py-2 text-sm text-gray-700">
+            {{ document.documentTitle }}
+          </td>
+          <td class="px-4 py-2 text-sm text-gray-700">
+            <span
+              class="px-2 py-1 font-semibold bg-gray-200 rounded"
+              >{{ document.familyCode }}</span
+            >
+          </td>
+          <td class="px-4 py-2 text-center">
+            <button
+              class="flex items-center justify-center w-10 h-10 mx-auto text-white bg-green-500 rounded-full cursor-pointer hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-green-500"
+              [attr.aria-label]="'Télécharger le document: ' + document.documentTitle"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                class="w-6 h-6"
+              >
+                <path
+                  d="M12 3a1 1 0 0 1 1 1v10.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-5 5a1 1 0 0 1-1.414 0l-5-5a1 1 0 1 1 1.414-1.414L11 14.586V4a1 1 0 0 1 1-1zM5 18a1 1 0 1 1 0-2h14a1 1 0 1 1 0 2H5z"
+                />
+              </svg>
+            </button>
+          </td>
+        </tr>
+      <ng-template #loading>
+        <tr>
+          <td colspan="4" class="px-4 py-2 text-center text-gray-500">
+            Chargement des documents...
+          </td>
+        </tr>
+      </ng-template>
     </tbody>
   </table>
 
   <!-- Empty State -->
-  <div *ngIf="!loading$ && !documents$?.length" class="empty-state">
+  <div *ngIf="!loading$" class="empty-state">
     Aucun document disponible.
   </div>
+</div>
 </div>

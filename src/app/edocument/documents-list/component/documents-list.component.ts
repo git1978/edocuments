@@ -1,20 +1,25 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DocumentFacade } from '../document-liste.facade';
 import { Documents } from '../../filter/filter.types';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'documents-list',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './documents-list.component.html',
   styleUrl: './documents-list.component.scss'
 })
 export class DocumentsListComponent implements OnInit {
-  @Input() documents: Documents[] = []; // Accept documents as input
-  @Input() loading: boolean = false; // Accept loading state
-  @Input() loaded: boolean = false; // Accept loading state
-  @Input() error: any = null; // Accept error state
+downloadDocument(_t19: any) {
+throw new Error('Method not implemented.');
+}
 
+  documents$: Observable<Documents[]> = this.documentFacade.documents$;
+  loading$ = this.documentFacade.loading$;
+  loaded$ = this.documentFacade.loaded$;
+  error$ = this.documentFacade.error$;
 
   constructor(private readonly documentFacade: DocumentFacade) {}
 
@@ -29,4 +34,5 @@ export class DocumentsListComponent implements OnInit {
     // Logique pour supprimer le document
     console.log(`Supprimer le document avec l'ID: ${id}`);
   }
+  
 }

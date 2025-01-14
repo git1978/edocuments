@@ -188,9 +188,4 @@
 </div>
 </div>
 
-<div *ngIf="documents$ | async as documents">
-  <documents-list
-    [documents]="documents"
-    [error]="errorList$ | async"
-  ></documents-list>
-</div>
+<documents-list></documents-list>
