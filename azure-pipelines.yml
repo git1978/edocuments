@@ -14,29 +14,36 @@ variables:
 # Étapes de la construction
 steps:
 
+# Nettoyage du cache npm avant l'installation
+- script: |
+    npm cache clean --force
+  displayName: 'Clean npm cache'
+
 # Installation de Node.js
 - task: NodeTool@0
   inputs:
     versionSpec: '$(nodeVersion)'
   displayName: 'Install Node.js'
 
-# Installation de l'Angular CLI globalement
+# Installation de l'Angular CLI
 - task: Npm@1
   displayName: 'Install Angular CLI'
   inputs:
     command: 'custom'
-    customCommand: 'install -g @angular/cli'
+    customCommand: 'install -g @angular/cli --force'
 
-# Test et Build du projet Angular
+# Test et build du projet Angular
 - task: Bash@3
   displayName: 'Angular Test and Build'
   inputs:
     targetType: 'inline'
     script: |
-      pushd $(projectFolder)
       ng test --no-watch --no-progress --browsers ChromeHeadless --code-coverage
       ng build --prod
-      popd
+
+# Compilation TypeScript et build du projet Angular
+- script: npm run build
+  displayName: 'Compile TypeScript and Build'
 
 # Exécution des tests unitaires avec Jest
 - script: npm run test:jest
