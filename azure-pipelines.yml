@@ -13,29 +13,30 @@ variables:
 
 # Étapes de la construction
 steps:
-- task: Bash@3
-  displayName: 'Angular Test and Build'
-  inputs:
-    targetType: 'inline'
-    script: |
-      ng test --no-watch --no-progress --browsers ChromeHeadless --code-coverage
-      ng build --prod
-- task: Npm@1
-  displayName: 'Install Angular CLI'
-  inputs:
-    command: 'custom'
-    customCommand: 'install -g @angular/cli'
-    
+
 # Installation de Node.js
 - task: NodeTool@0
   inputs:
     versionSpec: '$(nodeVersion)'
   displayName: 'Install Node.js'
 
-  
-# Compilation TypeScript et build du projet Angular
-- script: npm run build
-  displayName: 'Compile TypeScript and Build'
+# Installation de l'Angular CLI globalement
+- task: Npm@1
+  displayName: 'Install Angular CLI'
+  inputs:
+    command: 'custom'
+    customCommand: 'install -g @angular/cli'
+
+# Test et Build du projet Angular
+- task: Bash@3
+  displayName: 'Angular Test and Build'
+  inputs:
+    targetType: 'inline'
+    script: |
+      pushd $(projectFolder)
+      ng test --no-watch --no-progress --browsers ChromeHeadless --code-coverage
+      ng build --prod
+      popd
 
 # Exécution des tests unitaires avec Jest
 - script: npm run test:jest
