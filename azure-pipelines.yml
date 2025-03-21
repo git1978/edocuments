@@ -2,6 +2,7 @@
 trigger:
 - master 
 - develop
+- main
 
 # Définition de l'image VM pour l'exécution du pipeline
 pool:
