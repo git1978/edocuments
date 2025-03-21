@@ -1,105 +1,87 @@
+
 trigger:
 - master 
 - develop
 - main
 
-pr: none
+# Définition de l'image VM pour l'exécution du pipeline
+pool:
+  name: SH1  # Remplacez SH1 par le bon nom si nécessaire
 
+# Définition des variables utilisées dans le pipeline
+variables:
+  nodeVersion: 'v23.9.0'
+  projectFolder: 'src/angular'
+  buildOutputFolder: 'src/angular/dist/angular'
+  developmentBranchName: 'develop'    
+  masterBranchName: 'master'
 
-variables: 
-    developmentBranchName: 'develop'    
-    masterBranchName: 'master'
-    
-    
- 
-stages:
-    - stage: 'Build'
-      displayName: 'Build the Angular App'
-      jobs:
-          - job: 'Build_DEV'
-            condition: eq(variables['Build.SourceBranchName'],variables['developmentBranchName'])
-            displayName: 'Build job'
-            pool:
-              vmImage: 'windows-latest' 
-              name: Azure Pipelines
-              demands:
-              - msbuild
-              - visualstudio
+# Étapes de la construction
+steps:
 
+# Nettoyage du cache npm avant l'installation
+#- script: |
+ #   npm cache clean --force
+ # displayName: 'Clean npm cache'
 
-                  
-            steps:
-            - task: NodeTool@0
-              displayName: 'Use Node 10.x x'
-              inputs:
-                  versionSpec: 10.x
+# Installation de Node.js
+- task: NodeTool@0
+  inputs:
+    versionSpec: '$(nodeVersion)'
+  displayName: 'Install Node.js'
 
-            - task: Npm@1
-              displayName: 'npm install'
-              inputs:
-                  verbose: false
-                
-            - task: Npm@1
-              displayName: 'ng build'
-              inputs:
-                  command: custom
-                  workingDir: .
-                  verbose: false
-                  customCommand: 'run dist:dev'
-            
-            - task: CopyFiles@2
-              displayName: 'Copy Files to: dist'
-              inputs:
-                   SourceFolder: dist
-                   Contents: '**/**'
-                   TargetFolder: 'dist'
+# Installation de l'Angular CLI
+- task: Npm@1
+  displayName: 'Install Angular CLI'
+  inputs:
+    command: 'custom'
+    customCommand: 'install -g @angular/cli --force'
 
-            - task: PublishPipelineArtifact@1
-              inputs:
-                  targetPath: 'dist'
-                  artifact: 'drop'
-                  publishLocation: pipeline
-                   
-          
-          - job: 'Build_UAT'
-            condition: eq(variables['Build.SourceBranchName'],variables['masterBranchName'])
-            displayName: 'Build job'
-            pool:
-              vmImage: 'windows-latest' 
+# Test et build du projet Angular
+- task: Bash@3
+  displayName: 'Angular Test and Build'
+  inputs:
+    targetType: 'inline'
+    script: |
+      ng test --no-watch --no-progress --browsers ChromeHeadless --code-coverage
+      ng build --prod
 
-                  
-            steps:
-            - task: NodeTool@0
-              displayName: 'Use Node 10.x x'
-              inputs:
-                  versionSpec: 10.x
+# Compilation TypeScript et build du projet Angular
+- script: npm run build
+  displayName: 'Compile TypeScript and Build'
 
-            - task: Npm@1
-              displayName: 'npm install'
-              inputs:
-                  verbose: false
-                
-            - task: Npm@1
-              displayName: 'ng build'
-              inputs:
-                  command: custom
-                  workingDir: .
-                  verbose: false
-                  customCommand: 'run dist:uat'
-            
-            - task: CopyFiles@2
-              displayName: 'Copy Files to: dist'
-              inputs:
-                   SourceFolder: dist
-                   Contents: '**/**'
-                   TargetFolder: 'src/dist'
+# Exécution des tests unitaires avec Jest
+- script: npm run test:jest
+  displayName: 'Run jest unit tests'
 
-            - task: PublishPipelineArtifact@1
-              inputs:
-                  targetPath: 'dist'
-                  artifact: 'drop'
-                  publishLocation: pipeline
-                   
-            
-                
-    
+# Copie des fichiers générés vers le dossier de staging
+- task: CopyFiles@2
+  inputs:
+    sourceFolder: '$(buildOutputFolder)' 
+    contents: '**/*' 
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    cleanTargetFolder: true
+  displayName: 'Copy built files to staging directory'
+
+# Archivage des fichiers en un fichier ZIP
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    includeRootFolder: false
+  displayName: 'Archive files into a ZIP package'
+
+# Publication de l'archive en tant qu'artifact de build
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+  displayName: 'Publish the build artifact'
+
+# Publication des artefacts finaux
+- task: PublishBuildArtifacts@1
+  inputs:
+    artifactName: 'dist'
+    pathtoPublish: 'dist'
+  displayName: 'Publish Artifacts'
+
