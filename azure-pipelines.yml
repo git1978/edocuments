@@ -1,6 +1,7 @@
-# Build ASP.NET Core project using Azure Pipelines
-# Documentation: https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core?view=vsts
 
+trigger:
+- master 
+- develop
 # Définition de l'image VM pour l'exécution du pipeline
 pool:
   name: SH1  # Remplacez SH1 par le bon nom si nécessaire
