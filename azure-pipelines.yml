@@ -13,7 +13,13 @@ variables:
 
 # Étapes de la construction
 steps:
-
+- task: Bash@3
+  displayName: 'Angular Test and Build'
+  inputs:
+    targetType: 'inline'
+    script: |
+      ng test --no-watch --no-progress --browsers ChromeHeadless --code-coverage
+      ng build --prod
 - task: Npm@1
   displayName: 'Install Angular CLI'
   inputs:
