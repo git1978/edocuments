@@ -23,15 +23,6 @@ steps:
   inputs:
     versionSpec: '$(nodeVersion)'
   displayName: 'Install Node.js'
-
-
-
-# Installation de l'Angular CLI
-- task: Npm@1
-  displayName: 'Install Angular CLI'
-  inputs:
-    command: 'custom'
-    customCommand: 'install -g @angular/cli --force'
 - script: |
     npm install
     npm run build
