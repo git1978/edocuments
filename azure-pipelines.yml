@@ -36,6 +36,10 @@ steps:
   inputs:
     command: 'custom'
     customCommand: 'install -g @angular/cli --force'
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
 
 # Test et build du projet Angular
 - task: Bash@3
