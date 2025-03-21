@@ -31,10 +31,6 @@ steps:
   
 # Test et build du projet Angular
 - task: Bash@3
-# Compilation TypeScript et build du projet Angular
-- script: npm run build
-  displayName: 'Compile TypeScript and Build'
-
 # Exécution des tests unitaires avec Jest
 - script: npm run test:jest
   displayName: 'Run jest unit tests'
