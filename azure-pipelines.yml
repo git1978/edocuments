@@ -57,3 +57,10 @@ steps:
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
   displayName: 'Publish the build artifact'
+
+# Publication des artefacts finaux
+- task: PublishBuildArtifacts@1
+  inputs:
+    artifactName: 'dist'
+    pathtoPublish: 'dist'
+  displayName: 'Publish Artifacts'
