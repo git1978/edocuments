@@ -29,15 +29,6 @@ steps:
   displayName: 'npm install and build'
   
 
-# Copie des fichiers générés vers le dossier de staging
-- task: CopyFiles@2
-  inputs:
-    sourceFolder: '$(buildOutputFolder)' 
-    contents: '**/*' 
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
-    cleanTargetFolder: true
-  displayName: 'Copy built files to staging directory'
-
 # Archivage des fichiers en un fichier ZIP
 - task: ArchiveFiles@2
   inputs:
