@@ -20,12 +20,19 @@ steps:
     versionSpec: '$(nodeVersion)'
   displayName: 'Install Node.js'
 
-# Installation des dépendances et build du projet Angular
+# Installation des dépendances
 - script: |
-    cd $(projectFolder)
     npm install
-    npm run build
-  displayName: 'Install dependencies and build Angular project'
+    npm install -g @angular/cli
+  displayName: 'Install dependencies'
+
+# Compilation TypeScript et build du projet Angular
+- script: npm run build
+  displayName: 'Compile TypeScript and Build'
+
+# Exécution des tests unitaires avec Jest
+- script: npm run test:jest
+  displayName: 'Run jest unit tests'
 
 # Copie des fichiers générés vers le dossier de staging
 - task: CopyFiles@2
