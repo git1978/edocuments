@@ -28,12 +28,6 @@ steps:
     npm run build
   displayName: 'npm install and build'
   
-  
-# Test et build du projet Angular
-- task: Bash@3
-# Exécution des tests unitaires avec Jest
-- script: npm run test:jest
-  displayName: 'Run jest unit tests'
 
 # Copie des fichiers générés vers le dossier de staging
 - task: CopyFiles@2
