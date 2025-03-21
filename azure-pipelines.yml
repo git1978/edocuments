@@ -10,6 +10,8 @@ variables:
   nodeVersion: 'v23.9.0'
   projectFolder: 'src/angular'
   buildOutputFolder: 'src/angular/dist/angular'
+  developmentBranchName: 'develop'    
+  masterBranchName: 'master'
 
 # Étapes de la construction
 steps:
