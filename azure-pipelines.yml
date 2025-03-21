@@ -18,17 +18,13 @@ variables:
 
 # Étapes de la construction
 steps:
-
-# Nettoyage du cache npm avant l'installation
-#- script: |
- #   npm cache clean --force
- # displayName: 'Clean npm cache'
-
 # Installation de Node.js
 - task: NodeTool@0
   inputs:
     versionSpec: '$(nodeVersion)'
   displayName: 'Install Node.js'
+
+
 
 # Installation de l'Angular CLI
 - task: Npm@1
@@ -40,7 +36,8 @@ steps:
     npm install
     npm run build
   displayName: 'npm install and build'
-
+  
+  
 # Test et build du projet Angular
 - task: Bash@3
   displayName: 'Angular Test and Build'
