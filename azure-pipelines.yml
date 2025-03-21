@@ -30,13 +30,12 @@ steps:
   
 
 # Archivage des fichiers en un fichier ZIP
-- task: ArchiveFiles@2
+- task: CopyFiles@2
+  displayName: 'Copy Files to: dist'
   inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    includeRootFolder: false
-  displayName: 'Archive files into a ZIP package'
+        SourceFolder: dist
+        Contents: '**/**'
+        TargetFolder: 'src/dist'
 
 # Publication de l'archive en tant qu'artifact de build
 - task: PublishBuildArtifacts@1
