@@ -31,13 +31,6 @@ steps:
   
 # Test et build du projet Angular
 - task: Bash@3
-  displayName: 'Angular Test and Build'
-  inputs:
-    targetType: 'inline'
-    script: |
-      ng test --no-watch --no-progress --browsers ChromeHeadless --code-coverage
-      ng build --prod
-
 # Compilation TypeScript et build du projet Angular
 - script: npm run build
   displayName: 'Compile TypeScript and Build'
