@@ -15,9 +15,9 @@ variables:
 steps:
 
 # Nettoyage du cache npm avant l'installation
-- script: |
-    npm cache clean --force
-  displayName: 'Clean npm cache'
+#- script: |
+ #   npm cache clean --force
+ # displayName: 'Clean npm cache'
 
 # Installation de Node.js
 - task: NodeTool@0
