@@ -14,27 +14,18 @@ variables:
 # Étapes de la construction
 steps:
 
+- task: Npm@1
+  displayName: 'Install Angular CLI'
+  inputs:
+    command: 'custom'
+    customCommand: 'install -g @angular/cli'
+    
 # Installation de Node.js
 - task: NodeTool@0
   inputs:
     versionSpec: '$(nodeVersion)'
   displayName: 'Install Node.js'
 
-
-# Installation des dépendances
-- script: |
-    echo "Installing dependencies..."
-    npm ci
-    if [ $? -ne 0 ]; then
-      echo "npm ci failed. Exiting..."
-      exit 1
-    fi
-    npm install -g @angular/cli
-    if [ $? -ne 0 ]; then
-      echo "npm install -g @angular/cli failed. Exiting..."
-      exit 1
-    fi
-  displayName: 'Install dependencies'
   
 # Compilation TypeScript et build du projet Angular
 - script: npm run build
